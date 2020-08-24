@@ -6,11 +6,10 @@ print(indeed_result.status_code)
 soup = BeautifulSoup(indeed_result.text, 'html.parser')
 
 pagination = soup.find("div", {"class", "pagination"})
-pages = pagination.find_all("a")
-span = []
+links = pagination.find_all("a")
+pages = []  
 
-for page in pages:
-  span.append(page.find("span"))
+for link in links[:-1]:
+  pages.append(int(link.string))
 
-print(span[:-1])
-
+max_page = pages[-1]
