@@ -28,6 +28,11 @@ def extract_indeed_jobs(last_page):
     results = soup.find_all("div", {"class", "jobsearch-SerpJobCard"})
     for result in results:
         title = result.find("h2", {"class", "title"}).find("a")["title"]
-        jobs.append(title)
+        company_span = result.find("span", {"class", "company"})
+        if company_span.find("a") is not None:
+            company = company_span.find("a").string.strip()
+        else:
+            company = company_span.string.strip()
+        jobs.append({title, company})
     print(jobs)
     return jobs
