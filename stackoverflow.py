@@ -20,9 +20,6 @@ def extract_stackoverflow_pages():
     return max_page
 
 
-print(extract_stackoverflow_pages())
-
-
 def extract_job(html):
     title = html.find("a", {"class", "s-link stretched-link"})["title"]
 
@@ -50,12 +47,11 @@ def extract_job(html):
 
 def extract_stackoverflow_jobs(last_page):
     jobs = []
-    # for page in range(last_page):
-    page = 0
-    # print(f"{page+1} / {last_page}")
-    result = requests.get(f"https://stackoverflow.com/jobs?q=python&pg={page+1}")
-    soup = BeautifulSoup(result.text, "html.parser")
-    posters = soup.find_all("div", {"class", "-job"})
-    for poster in posters:
-        jobs.append(extract_job(poster))
+    for page in range(last_page):
+        print(f"Scrapping Jobs from StackOverFlow : {page+1} / {last_page+1}")
+        result = requests.get(f"https://stackoverflow.com/jobs?q=python&pg={page+1}")
+        soup = BeautifulSoup(result.text, "html.parser")
+        posters = soup.find_all("div", {"class", "-job"})
+        for poster in posters:
+            jobs.append(extract_job(poster))
     return jobs

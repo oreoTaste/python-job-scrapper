@@ -7,7 +7,6 @@ URL = f"https://kr.indeed.com/%EC%B7%A8%EC%97%85?q=python&limit={LIMIT}"
 
 def extract_indeed_pages():
     result = requests.get(URL)
-    # print(result.status_code)
     soup = BeautifulSoup(result.text, "html.parser")
 
     pagination = soup.find("div", {"class", "pagination"})
@@ -42,7 +41,7 @@ def extract_job(html):
 def extract_indeed_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f"scrapping page: {page}")
+        print(f"Scrapping Jobs from Indeed : {page+1} / {last_page+1}")
         body_content = requests.get(URL + f"&start={page * LIMIT}")
         soup = BeautifulSoup(body_content.text, "html.parser")
         posters = soup.find_all("div", {"class", "jobsearch-SerpJobCard"})
