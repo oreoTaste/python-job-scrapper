@@ -5,4 +5,6 @@ import stackoverflow
 # indeed_jobs = extract_indeed_jobs(last_indeed_page)
 # print(indeed_jobs)
 
-stackoverflow.extract_stackoverflow_pages()
+last_stackoverflow_page = stackoverflow.extract_stackoverflow_pages()
+stackoverflow_jobs = stackoverflow.extract_stackoverflow_jobs(last_stackoverflow_page)
+# print(stackoverflow)
