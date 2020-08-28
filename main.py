@@ -1,7 +1,7 @@
 from indeed import extract_indeed_pages, extract_indeed_jobs
 from stackoverflow import extract_stackoverflow_jobs
 from save import save_to_csv
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 
 app = Flask("job scrapper")
 
@@ -11,9 +11,10 @@ def index():
   return render_template("home.html")
 
 
-@app.route('/<username>')
-def contact(username):
-  return f"Hello Nice to meet you {username}"
+@app.route("/report")
+def report():
+  lan = request.args.get("lan")
+  return render_template("report.html", searchingBy=lan)
 
 
 app.run(host="0.0.0.0")
