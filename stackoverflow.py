@@ -48,7 +48,7 @@ def extract_job(html):
 def extract_stackoverflow_jobs(last_page):
     jobs = []
     for page in range(last_page):
-        print(f"Scrapping Jobs from StackOverFlow : {page+1} / {last_page+1}")
+        print(f"Scrapping Jobs from StackOverFlow : {page+1} / {last_page}")
         result = requests.get(f"https://stackoverflow.com/jobs?q=python&pg={page+1}")
         soup = BeautifulSoup(result.text, "html.parser")
         posters = soup.find_all("div", {"class", "-job"})
