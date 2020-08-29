@@ -1,8 +1,5 @@
-from indeed import extract_indeed_pages, extract_indeed_jobs
-from stackoverflow import extract_stackoverflow_jobs
-from save import save_to_csv
-from flask import Flask, render_template, request
-
+from flask import Flask, render_template, request, redirect
+from scrapper import start_scrap as scrap
 app = Flask("job scrapper")
 
 
@@ -14,15 +11,12 @@ def index():
 @app.route("/report")
 def report():
   lan = request.args.get("lan")
-  return render_template("report.html", searchingBy=lan)
+  if lan:
+    lan = lan.lower()
+    print(scrap(lan))
+    return render_template("report.html", searchingBy=lan)
+  else:
+    return redirect('/')
 
 
 app.run(host="0.0.0.0")
-
-# last_indeed_page = extract_indeed_pages()
-# indeed_jobs = extract_indeed_jobs(last_indeed_page)
-
-# stackoverflow_jobs = extract_stackoverflow_jobs()
-
-# jobs = indeed_jobs + stackoverflow_jobs
-# save_to_csv(jobs)
