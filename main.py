@@ -1,5 +1,7 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from scrapper import start_scrap as scrap
+from save import save_to_csv
+
 app = Flask("job scrapper")
 db = {}
 
@@ -31,7 +33,7 @@ def report():
 
 
 @app.route("/export")
-def export():
+def download():
   try:
     lan = request.args.get("lan")
     if not lan:
@@ -40,7 +42,8 @@ def export():
     jobs = db.get(lan)
     if not jobs:
       raise Exception()
-    return f"Generate CSV for {lan}"
+    save_to_csv(jobs)
+    return send_file("jobs.csv")
   except:
     return redirect('/')
 
