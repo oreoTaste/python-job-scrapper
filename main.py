@@ -14,13 +14,18 @@ def report():
   lan = request.args.get("lan")
   if lan:
     lan = lan.lower()
-    fromDb = db.get(lan)
-    if fromDb:
-      jobs = fromDb
+    existingJobs = db.get(lan)
+    if existingJobs:
+      jobs = existingJobs
     else:
       jobs = scrap(lan)
       db[lan] = jobs
-    return render_template("report.html", searchingBy=lan, resultNumber=len(jobs))
+    return render_template(
+        "report.html",
+        searchingBy=lan,
+        resultNumber=len(jobs),
+        jobs=jobs
+    )
   else:
     return redirect('/')
 

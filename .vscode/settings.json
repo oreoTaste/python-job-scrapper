@@ -25,5 +25,8 @@
   "python.formatting.autopep8Args": ["--indent-size=2"],
   "editor.codeActionsOnSave": {
     "source.fixAll": true
+  },
+  "files.associations": {
+    "*.html": "html"
   }
 }
