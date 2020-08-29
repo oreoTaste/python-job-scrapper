@@ -30,4 +30,19 @@ def report():
     return redirect('/')
 
 
+@app.route("/export")
+def export():
+  try:
+    lan = request.args.get("lan")
+    if not lan:
+      raise Exception()
+    lan = lan.lower()
+    jobs = db.get(lan)
+    if not jobs:
+      raise Exception()
+    return f"Generate CSV for {lan}"
+  except:
+    return redirect('/')
+
+
 app.run(host="0.0.0.0")
