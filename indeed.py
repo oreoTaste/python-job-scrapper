@@ -23,13 +23,18 @@ def extract_indeed_pages(lan):
 def extract_job(html):
   title = html.find("h2", {"class", "title"}).find("a")["title"]
   company_span = html.find("span", {"class", "company"})
-  if company_span.find("a") is not None:
-    company = company_span.find("a").string.strip()
+
+  if company_span is None:
+    company = ""
   else:
-    company = company_span.string.strip()
+    if company_span.find("a") is None:
+      company = company_span.get_text().strip()
+    else:
+      company = company_span.find("a").string.strip()
 
   location = html.find("div", {"class", "recJobLoc"})["data-rc-loc"]
   data_jk = html["data-jk"]
+
   return {
       "title": title,
       "company": company,

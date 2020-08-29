@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from scrapper import start_scrap as scrap
 app = Flask("job scrapper")
+db = {}
 
 
 @app.route('/')
@@ -13,8 +14,13 @@ def report():
   lan = request.args.get("lan")
   if lan:
     lan = lan.lower()
-    print(scrap(lan))
-    return render_template("report.html", searchingBy=lan)
+    fromDb = db.get(lan)
+    if fromDb:
+      jobs = fromDb
+    else:
+      jobs = scrap(lan)
+      db[lan] = jobs
+    return render_template("report.html", searchingBy=lan, resultNumber=len(jobs))
   else:
     return redirect('/')
 

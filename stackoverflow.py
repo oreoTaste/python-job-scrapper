@@ -34,7 +34,7 @@ def extract_stackoverflow_jobs(lan):
   result = requests.get(URL+lan)
   soup = BeautifulSoup(result.text, "html.parser")
   num_of_result = soup.find(
-      "span", {"class", "description"}).string.strip().split(" jobs")[0]
+      "span", {"class", "description"}).string.strip().split(" ")[0]
   posters = soup.find_all("div", {"class", "-job"}, limit=int(num_of_result))
   for poster in posters:
     jobs.append(extract_job(poster))
