@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Danggn w/ voca</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <style>
       body {
         background-image: linear-gradient(180deg, #acb6e5 20%, #74ebd5 100%);
@@ -30,13 +31,21 @@
       form {
         text-align: center;
       }
-      input {
+      .region2 {
+        text-align: center;
+      }
+      .region2 select {
+        display: block;
+        margin: 0 auto;
+      }
+      select {
         height: 1.5rem;
         width: 20rem;
       }
       button {
-        height: 1.84rem;
         font-size: large;
+        height: 1.5rem;
+        width: 20rem;
       }
       .bar {
         display: flex;
@@ -57,10 +66,48 @@
     </div>
     <div class="bar">
       <h2>Please type your regions below</h2>
-      <form action="/search" method="GET">
-        <input type="text" name="region" required />
-        <button>Go</button>
+      <form action="/" method="GET" onchange="add()">
+        <select name="region" class="district1" required>
+          {%for district in districts%}
+          <option value="{{district}}">{{district}}</option>
+          {%endfor%}
+        </select>
       </form>
+      <div class="region2">
+        <select name="region2" class="district2">
+          {%for district in districts2%}
+          <option value="{{district}}">{{district}}</option>
+          {%endfor%}
+        </select>
+        <button onclick="moveToSearch()">Go</button>
+      </div>
     </div>
+    <script>
+      function add() {
+        str = document.querySelector(".district1").value;
+        window.location.href = "./" + str;
+      }
+
+      function moveToSearch() {
+        district1 = document.querySelector(".district1").value;
+        district2 = document.querySelector(".district2").value;
+        if (district2 == "동네를 선택하세요" || district2 == "") {
+          if (district1 == "지역을 선택하세요") {
+            window.location.href = "./search";
+          } else window.location.href = "./search?region1=" + district1;
+        } else window.location.href = "./search?region1=" + district1 + "&region2=" + district2;
+      }
+
+      if (window.location.href.split("/")[3] != "") {
+        var children = document.querySelector(".district1").childNodes;
+        for (var i = 0; i < children.length; i++) {
+          if (decodeURI(window.location.href.split("/")[3]) === children[i].text) {
+            children[i].setAttribute("selected", "true");
+            console.log(decodeURI(window.location.href.split("/")[3]), children[i].text);
+            console.log(decodeURI(window.location.href.split("/")[3]) === children[i].text);
+          }
+        }
+      }
+    </script>
   </body>
 </html>

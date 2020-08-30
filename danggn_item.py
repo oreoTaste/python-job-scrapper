@@ -2,9 +2,53 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_danggn_items(input_region):
+def district1():
     r = requests.get(
-        f"https://www.daangn.com/region/{input_region}/")
+        f"https://www.daangn.com/hot_articles")
+    soup = BeautifulSoup(r.text, 'html.parser')
+    options = soup.find("select", {"name", "hot-articles-nav-select"})
+
+    district = []
+    for option in options:
+        try:
+            if option.string.strip() != '':
+                district.append(option.string.strip())
+        except:
+            continue
+    return district
+
+
+def district2(district1):
+    r = requests.get(
+        f"https://www.daangn.com/region/{district1}")
+    soup = BeautifulSoup(r.text, 'html.parser')
+    options = soup.find("select", {"name", "hot-articles-nav-select"})
+    options = options.find_next_sibling("select")
+
+    district = []
+    for option in options:
+        try:
+            if option.string.strip() != '':
+                district.append(option.string.strip())
+        except:
+            continue
+    return district
+
+
+def get_danggn_items(**kwargs):
+    region1 = kwargs.get("region1")
+    region2 = kwargs.get("region2")
+    sub_url = ''
+    if region1 != None:
+        if region2 == None:
+            sub_url = region1
+        else:
+            sub_url = f"{region1}/{region2}"
+
+    url = f"https://www.daangn.com/region/{sub_url}"
+    if sub_url == '':
+        url = "https://www.daangn.com/hot_articles"
+    r = requests.get(url)
     soup = BeautifulSoup(r.text, 'html.parser')
     boxes = soup.find_all("article", {"class", "card-top"})
 
