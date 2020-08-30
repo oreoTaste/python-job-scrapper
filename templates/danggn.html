@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Danggn w/ voca</title>
+    <style>
+      .items {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+      }
+      .item {
+        width: 19%;
+        padding: 3%;
+      }
+
+      h2,
+      h3,
+      h4 {
+        text-align: right;
+        margin: 3%;
+      }
+
+      a {
+        display: block;
+        text-align: center;
+      }
+      a img {
+        opacity: 0.8;
+        width: 100%;
+        box-shadow: 3px 4px 7px 2px rgba(0, 0, 0, 0.4);
+      }
+
+      .item_detail {
+        margin-top: -50%;
+        z-index: 2;
+        position: relative;
+        text-align: right;
+      }
+      h2 {
+        text-shadow: -1px -1px 2px rgb(255, 255, 255, 0.4), 1px 1px 2px rgb(0, 0, 0, 0.4);
+        position: relative;
+        font-size: 1em;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      h3 {
+        font-size: 0.8em;
+      }
+      h4 {
+        font-size: 0.7em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="items">
+      {%for item in items%}
+      <div class="item">
+        <a href="{{ item.link}}">
+          <img src="{{item.img}}" />
+        </a>
+        <div class="item_detail">
+          <h2>{{item.title}}</h2>
+          <h3>{{item.region}}</h3>
+          <h3>{{item.price}}</h3>
+          <h4>like:{{item.like}} / chat:{{item.chat}}</h4>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </body>
+</html>
