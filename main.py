@@ -1,7 +1,7 @@
 from danggn_item import get_danggn_items, district1, district2
 from naver_word import get_naver_word
 from save import save_to_csv
-from flask import Flask, render_template, redirect, request
+from flask import Flask, render_template, redirect, request, send_from_directory
 
 
 app = Flask("my page")
@@ -49,8 +49,20 @@ def search():
     region1 = request.args.get("region1")
     region2 = request.args.get("region2")
     items = get_danggn_items(region1=region1, region2=region2)
+
+    save_to_csv(items, filename="danggn.csv")
     return render_template("danggn.html",
-                           items=items)
+                           items=items,
+                           filename="danggn.csv")
+
+
+@app.route('/download/<path:filename>')
+def download(filename):
+
+    return send_from_directory(directory="download",
+                               filename=filename,
+                               as_attachment=True,
+                               cache_timeout=0)
 
 
 app.run(host="0.0.0.0")
