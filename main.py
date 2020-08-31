@@ -13,7 +13,6 @@ db2 = {}
 @app.route('/')
 @app.route('/<path:keyword>')
 def index(keyword=''):
-    print("신호가 왔습니다")
     global db0
     if db0 != {}:
         words = db0

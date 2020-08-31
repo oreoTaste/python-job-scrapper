@@ -103,10 +103,12 @@
         for (var i = 0; i < children.length; i++) {
           if (decodeURI(window.location.href.split("/")[3]) === children[i].text) {
             children[i].setAttribute("selected", "true");
-            console.log(decodeURI(window.location.href.split("/")[3]), children[i].text);
-            console.log(decodeURI(window.location.href.split("/")[3]) === children[i].text);
           }
         }
+      }
+
+      if (window.location.href.split("/")[3] == "" || decodeURI(window.location.href.split("/")[3]) == "지역을 선택하세요") {
+        document.querySelector(".district2").setAttribute("style", "display:none");
       }
     </script>
   </body>
